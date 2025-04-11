@@ -1,0 +1,342 @@
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import * as flowchart from 'flowchart.js';
+
+@Component({
+  selector: 'app-flowchart',
+  templateUrl: './flowchart.component.html',
+  styleUrls: ['./flowchart.component.css'],
+})
+export class FlowchartComponent implements OnInit, AfterViewInit, OnDestroy {
+  flowchartCode: string = `st=>start: Start|approved
+op1=>operation: Check Inventory|current
+op2=>operation: Check Test1|past
+op3=>operation: Check Test2|future
+e=>end: End|invalid
+
+st->op1->op2->op3->e`;
+
+  private chart: any;
+  private nodeClickHandlers: Map<string, (event: MouseEvent) => void> = new Map();
+
+  ngOnInit(): void {
+    // Ensure Raphaël is available globally
+    if (!(window as any).Raphael) {
+      (window as any).Raphael = require('raphael');
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.renderFlowchart();
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupEventListeners();
+  }
+
+  updateFlowchart(): void {
+    this.renderFlowchart();
+  }
+
+  private renderFlowchart(): void {
+    try {
+      // Clear previous chart and event listeners
+      const canvas = document.getElementById('flowchart-canvas');
+      if (canvas) {
+        canvas.innerHTML = '';
+      }
+      this.cleanupEventListeners();
+
+      // Parse and draw the flowchart
+      if (this.flowchartCode.trim()) {
+        this.chart = flowchart.parse(this.flowchartCode);
+        this.chart.drawSVG('flowchart-canvas', {
+          'line-width': 2,
+          'line-length': 50,
+          'text-margin': 10,
+          'font-size': 14,
+          'font-color': 'black',
+          'line-color': 'black',
+          'element-color': 'black',
+          'fill': '#f0f0f0', // Default fill for unstyled nodes
+          'yes-text': 'Yes',
+          'no-text': 'No',
+          'arrow-end': 'block',
+          'scale': 1,
+          // Custom colors for specific nodes
+          'symbols': {
+            'st': { 'fill': '#28a745' }, // Green for Start
+            'op1': { 'fill': '#007bff' }, // Blue for Check Inventory
+            'op2': { 'fill': '#fd7e14' }, // Orange for Check Test1
+            'op3': { 'fill': '#6f42c1' }, // Purple for Check Test2
+            'e': { 'fill': '#dc3545' }, // Red for End
+          },
+        });
+
+        // Add click event listeners to nodes
+        this.addNodeClickListeners();
+      }
+    } catch (error) {
+      console.error('Error rendering flowchart:', error);
+    }
+  }
+
+  private addNodeClickListeners(): void {
+    // Select all node elements (SVG <g> elements with class 'node')
+    const nodes = document.querySelectorAll('#flowchart-canvas .node');
+    nodes.forEach((node) => {
+      // Get the node ID from the 'id' attribute
+      const nodeId = node.getAttribute('id') || 'unknown';
+      // Get the label from the text element within the node
+      const labelElement = node.querySelector('text');
+      const nodeLabel = labelElement ? labelElement.textContent : nodeId;
+
+      // Create a unique handler for this node
+      const handler = (event: MouseEvent) => {
+        this.onNodeClick(nodeId, nodeLabel || 'Unnamed Node');
+        event.stopPropagation(); // Prevent event bubbling
+      };
+
+      // Store the handler for cleanup
+      this.nodeClickHandlers.set(nodeId, handler);
+
+      // Attach the event listener
+      node.addEventListener('click', handler);
+
+      // Add clickable class for styling
+      node.classList.add('clickable');
+    });
+  }
+
+  private cleanupEventListeners(): void {
+    // Remove all existing event listeners
+    this.nodeClickHandlers.forEach((handler, nodeId) => {
+      const node = document.getElementById(nodeId);
+      if (node) {
+        node.removeEventListener('click', handler);
+      }
+    });
+    this.nodeClickHandlers.clear();
+  }
+
+  private onNodeClick(nodeId: string, nodeLabel: string): void {
+    // Custom action when a node is clicked
+    alert(`Clicked node: ${nodeLabel} (ID: ${nodeId})`);
+    console.log(`Node clicked - ID: ${nodeId}, Label: ${nodeLabel}`);
+  }
+}
+
+
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import * as flowchart from 'flowchart.js';
+
+@Component({
+  selector: 'app-flowchart',
+  templateUrl: './flowchart.component.html',
+  styleUrls: ['./flowchart.component.css'],
+})
+export class FlowchartComponent implements OnInit, AfterViewInit, OnDestroy {
+  flowchartCode: string = `st=>start: Start|approved
+op1=>operation: Check Inventory|current
+op2=>operation: Check Test1|past
+op3=>operation: Check Test2|future
+e=>end: End|invalid
+
+st->op1->op2->op3->e`;
+
+  private chart: any;
+  private nodeClickHandlers: Map<string, (event: MouseEvent) => void> = new Map();
+
+  ngOnInit(): void {
+    // Ensure Raphaël is available globally
+    if (!(window as any).Raphael) {
+      (window as any).Raphael = require('raphael');
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.renderFlowchart();
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupEventListeners();
+  }
+
+  updateFlowchart(): void {
+    this.renderFlowchart();
+  }
+
+  private renderFlowchart(): void {
+    try {
+      // Clear previous chart and event listeners
+      const canvas = document.getElementById('flowchart-canvas');
+      if (canvas) {
+        canvas.innerHTML = '';
+      }
+      this.cleanupEventListeners();
+
+      // Parse and draw the flowchart
+      if (this.flowchartCode.trim()) {
+        this.chart = flowchart.parse(this.flowchartCode);
+        this.chart.drawSVG('flowchart-canvas', {
+          'line-width': 2,
+          'line-length': 50,
+          'text-margin': 10,
+          'font-size': 14,
+          'font-color': 'black',
+          'line-color': 'black',
+          'element-color': 'black',
+          'fill': '#f0f0f0', // Default fill for unstyled nodes
+          'yes-text': 'Yes',
+          'no-text': 'No',
+          'arrow-end': 'block',
+          'scale': 1,
+          // Custom colors for specific nodes
+          'symbols': {
+            'st': { 'fill': '#28a745' }, // Green for Start
+            'op1': { 'fill': '#007bff' }, // Blue for Check Inventory
+            'op2': { 'fill': '#fd7e14' }, // Orange for Check Test1
+            'op3': { 'fill': '#6f42c1' }, // Purple for Check Test2
+            'e': { 'fill': '#dc3545' }, // Red for End
+          },
+        });
+
+        // Add click event listeners to nodes
+        this.addNodeClickListeners();
+      }
+    } catch (error) {
+      console.error('Error rendering flowchart:', error);
+    }
+  }
+
+  private addNodeClickListeners(): void {
+    // Select all node elements (SVG <g> elements with class 'node')
+    const nodes = document.querySelectorAll('#flowchart-canvas .node');
+    nodes.forEach((node) => {
+      // Get the node ID from the 'id' attribute
+      const nodeId = node.getAttribute('id') || 'unknown';
+      // Get the label from the text element within the node
+      const labelElement = node.querySelector('text');
+      const nodeLabel = labelElement ? labelElement.textContent : nodeId;
+
+      // Create a unique handler for this node
+      const handler = (event: MouseEvent) => {
+        this.onNodeClick(nodeId, nodeLabel || 'Unnamed Node');
+        event.stopPropagation(); // Prevent event bubbling
+      };
+
+      // Store the handler for cleanup
+      this.nodeClickHandlers.set(nodeId, handler);
+
+      // Attach the event listener
+      node.addEventListener('click', handler);
+
+      // Add clickable class for styling
+      node.classList.add('clickable');
+    });
+  }
+
+  private cleanupEventListeners(): void {
+    // Remove all existing event listeners
+    this.nodeClickHandlers.forEach((handler, nodeId) => {
+      const node = document.getElementById(nodeId);
+      if (node) {
+        node.removeEventListener('click', handler);
+      }
+    });
+    this.nodeClickHandlers.clear();
+  }
+
+  private onNodeClick(nodeId: string, nodeLabel: string): void {
+    // Custom action when a node is clicked
+    alert(`Clicked node: ${nodeLabel} (ID: ${nodeId})`);
+    console.log(`Node clicked - ID: ${nodeId}, Label: ${nodeLabel}`);
+  }
+}
+
+
+
+.flowchart-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  font-family: monospace;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chart-section {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  min-height: 400px;
+}
+
+#flowchart-canvas {
+  width: 100%;
+  height: 400px;
+}
+
+/* Style for clickable nodes */
+.clickable {
+  cursor: pointer;
+}
+
+/* Hover effect: Slightly lighten the node's fill */
+.clickable:hover rect,
+.clickable:hover circle,
+.clickable:hover path {
+  opacity: 0.8; /* Reduce opacity for a subtle hover effect */
+  transition: opacity 0.2s;
+}
+
+
+
+#node_st rect,
+#node_st circle {
+  fill: #28a745 !important; /* Green for Start */
+}
+#node_op1 rect {
+  fill: #007bff !important; /* Blue for Check Inventory */
+}
+#node_op2 rect {
+  fill: #fd7e14 !important; /* Orange for Check Test1 */
+}
+#node_op3 rect {
+  fill: #6f42c1 !important; /* Purple for Check Test2 */
+}
+#node_e rect,
+#node_e circle {
+  fill: #dc3545 !important; /* Red for End */
+}
+
+this.chart.drawSVG('flowchart-canvas', {
+  'line-width': 2,
+  'line-length': 50,
+  'text-margin': 10,
+  'font-size': 14,
+  'font-color': 'black',
+  'line-color': 'black',
+  'element-color': 'black',
+  'fill': '#f0f0f0',
+  'yes-text': 'Yes',
+  'no-text': 'No',
+  'arrow-end': 'block',
+  'scale': 1,
+});
+
+
+'symbols': {
+  'st': { 'fill': '#28a745' },
+  'op1': { 'fill': '#007bff' },
+  'op2': { 'fill': '#ffc107' }, // Yellow for Check Test1
+  'op3': { 'fill': '#6f42c1' },
+  'e': { 'fill': '#dc3545' },
+}
