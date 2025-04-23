@@ -1,0 +1,154 @@
+ # Sales Trader Controls Data Editor JIRA Tickets
+
+## Epic: STCON-1000 - Sales Trader Controls Data Editor Implementation
+
+### User Stories / Tasks
+
+#### STCON-1001: Design Database Schema for Sales Trader Controls
+**Type:** Task  
+**Priority:** High  
+**Story Points:** 5  
+**Description:** Design and implement the database schema to support the Sales Trader Controls data editor functionality. This should include tables for trader profiles, permission levels, trading limits, product restrictions, and approval workflows.
+**Acceptance Criteria:**
+- Database schema diagram completed and reviewed
+- All necessary tables and relationships defined
+- Schema optimized for query performance
+- Migration scripts created
+- Documentation completed
+
+#### STCON-1002: Create RESTful API for Sales Trader Controls Data
+**Type:** Task  
+**Priority:** High  
+**Story Points:** 8  
+**Description:** Develop a comprehensive REST API to support CRUD operations for all Sales Trader Controls data entities.
+**Acceptance Criteria:**
+- API endpoints created for all data entities
+- Authentication and authorization implemented
+- Request/response models defined
+- Input validation implemented
+- Error handling and logging implemented
+- API documentation generated
+- Unit tests with >80% coverage
+
+#### STCON-1003: Implement Authentication and Authorization Module
+**Type:** Task  
+**Priority:** High  
+**Story Points:** 5  
+**Description:** Implement role-based access control for the Sales Trader Controls editor to ensure that only authorized personnel can view and modify trader control settings.
+**Acceptance Criteria:**
+- Integration with company SSO solution
+- Role definitions for Admin, Compliance, Risk Manager, and Read-only users
+- Permission matrix for each role defined and implemented
+- Audit logging for authorization events
+
+#### STCON-1004: Build Trader Profile Management UI
+**Type:** User Story  
+**Priority:** Medium  
+**Story Points:** 5  
+**Description:** As a compliance officer, I need to be able to create, view, update, and delete trader profiles so that I can manage which traders are in the system.
+**Acceptance Criteria:**
+- Search and filter functionality for trader profiles
+- Form for creating/editing trader profiles with validation
+- Confirmation dialog for deletion operations
+- Success/error notifications
+- Responsive design that works on desktop and tablet
+
+#### STCON-1005: Implement Trading Limits Editor UI
+**Type:** User Story  
+**Priority:** High  
+**Story Points:** 8  
+**Description:** As a risk manager, I need to be able to set and modify trading limits for individual traders or groups so that I can control risk exposure.
+**Acceptance Criteria:**
+- UI to set limits by trader, desk, or product
+- Support for different limit types (notional, quantity, P&L)
+- Time-based limits (daily, weekly, monthly)
+- Currency conversion for cross-currency limits
+- Warning indicators for traders approaching limits
+- History of limit changes
+
+#### STCON-1006: Create Product Restriction Management UI
+**Type:** User Story  
+**Priority:** Medium  
+**Story Points:** 6  
+**Description:** As a compliance officer, I need to be able to define which products or markets a trader is allowed to trade so that I can ensure regulatory compliance.
+**Acceptance Criteria:**
+- Interface to assign allowed/restricted products by asset class
+- Bulk upload/download functionality via CSV
+- Ability to set temporary restrictions with expiration dates
+- Support for restriction templates that can be applied to multiple traders
+- Preview changes before saving
+
+#### STCON-1007: Develop Approval Workflow System
+**Type:** User Story  
+**Priority:** Medium  
+**Story Points:** 13  
+**Description:** As a compliance officer, I need changes to trading controls to go through an approval workflow so that we maintain proper oversight and separation of duties.
+**Acceptance Criteria:**
+- Multi-step approval workflow configuration
+- Dashboard for pending approvals
+- Email notifications for approval requests
+- Comment thread for approval discussions
+- Audit trail of approvals and rejections
+- Emergency override functionality with additional logging
+
+#### STCON-1008: Implement Audit Trail and Change History
+**Type:** Task  
+**Priority:** High  
+**Story Points:** 5  
+**Description:** Implement comprehensive audit logging for all changes made to trader controls data to support compliance and regulatory requirements.
+**Acceptance Criteria:**
+- Log all CRUD operations with timestamp, user, and changes made
+- Ability to view historical values for any field
+- Export audit logs to CSV/PDF
+- Filtering and searching of audit logs
+- Retention policy implementation
+
+#### STCON-1009: Create Reporting Dashboard
+**Type:** User Story  
+**Priority:** Low  
+**Story Points:** 8  
+**Description:** As a manager, I need a dashboard that provides an overview of trading controls and recent changes so that I can quickly assess the current state of controls.
+**Acceptance Criteria:**
+- Summary statistics of active controls
+- Visualization of limit utilization
+- Recent activity feed
+- Anomaly highlighting
+- Exportable reports
+- Customizable views
+
+#### STCON-1010: Integrate with Trading System
+**Type:** Task  
+**Priority:** High  
+**Story Points:** 13  
+**Description:** Integrate the Sales Trader Controls data with the core trading system to enforce the defined limits and restrictions at trade execution time.
+**Acceptance Criteria:**
+- Real-time synchronization of control data
+- Fallback mechanism for system outages
+- Performance testing under peak load
+- Monitoring and alerting for integration issues
+- Documentation for support teams
+
+#### STCON-1011: System Testing and QA
+**Type:** Task  
+**Priority:** Medium  
+**Story Points:** 8  
+**Description:** Perform comprehensive system testing of the Sales Trader Controls data editor to ensure all components work together correctly.
+**Acceptance Criteria:**
+- Test plan created and approved
+- All user stories functionally tested
+- Performance testing completed
+- Security testing completed
+- Browser compatibility testing
+- Defects triaged and critical issues resolved
+
+#### STCON-1012: Create User Documentation and Training Materials
+**Type:** Task  
+**Priority:** Low  
+**Story Points:** 5  
+**Description:** Develop comprehensive user documentation and training materials for the Sales Trader Controls data editor.
+**Acceptance Criteria:**
+- User manual created
+- Quick reference guides
+- Video tutorials for key functions
+- Training slides for user training sessions
+- FAQ document
